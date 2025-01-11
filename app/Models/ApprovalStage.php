@@ -18,6 +18,16 @@ class ApprovalStage extends Model
         'id'
     ];
 
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'approver_id' => $this->approver_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
+
     public static function addApprovalStage(array $params = [])
     {
         try {
@@ -32,7 +42,10 @@ class ApprovalStage extends Model
                     abort(400, 'Failed to add approval stage');
                 }
             
-                return $approvalStage;
+                return [
+                    'status' => true,
+                    'data' => $approvalStage
+                ];
             });
         } catch (\Exception $e) {
             Log::error('Failed to add approval stage: ' . $e->getMessage());    

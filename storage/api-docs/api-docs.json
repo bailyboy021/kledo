@@ -11,6 +11,154 @@
     ],
     "paths": {
         "/api": {},
+        "/approval-stages": {
+            "post": {
+                "tags": [
+                    "Approval Stage"
+                ],
+                "summary": "Add Approval Stage",
+                "description": "Create a new approval stage by assigning an approver.",
+                "operationId": "addApprovalStage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "approver_id"
+                                ],
+                                "properties": {
+                                    "approver_id": {
+                                        "description": "ID of the approver to be assigned to the approval stage",
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Approval stage created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": true,
+                                    "data": {
+                                        "id": 4,
+                                        "approver_id": 4,
+                                        "created_at": "2025-01-11T13:25:28.000000Z",
+                                        "updated_at": "2025-01-11T13:25:28.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "error": {
+                                        "approver_id": [
+                                            "The approver_id field is required.",
+                                            "The selected approver_id is invalid.",
+                                            "The approver_id has already been taken."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/approval-stages/{id}": {
+            "put": {
+                "tags": [
+                    "Approval Stage"
+                ],
+                "summary": "Update Approval Stage",
+                "description": "Update an existing approval stage by changing the approver assigned to it.",
+                "operationId": "updateApprovalStage",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the approval stage to be updated",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 5
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "approver_id"
+                                ],
+                                "properties": {
+                                    "approver_id": {
+                                        "description": "ID of the new approver to assign to this approval stage",
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Approval stage updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Approval stage updated successfully",
+                                    "approval_stage": {
+                                        "id": 5,
+                                        "approver_id": 6,
+                                        "created_at": "2025-01-11T10:00:00.000000Z",
+                                        "updated_at": "2025-01-11T12:30:00.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "error": {
+                                        "id": [
+                                            "The id field is required.",
+                                            "The selected id is invalid."
+                                        ],
+                                        "approver_id": [
+                                            "The approver_id field is required.",
+                                            "The selected approver_id is invalid.",
+                                            "The approver_id has already been taken."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/approvers": {
             "post": {
                 "tags": [
@@ -302,6 +450,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Approval Stage",
+            "description": "Approval Stage"
+        },
         {
             "name": "Approver",
             "description": "Approver"
