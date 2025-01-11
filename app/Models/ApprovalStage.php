@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class ApprovalStage extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     protected $table = "approval_stages";
     protected $primarykey = "id";

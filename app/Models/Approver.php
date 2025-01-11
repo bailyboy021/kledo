@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class Approver extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     protected $table = "approvers";
     protected $primarykey = "id";

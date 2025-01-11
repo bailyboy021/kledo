@@ -14,7 +14,7 @@ use App\Models\Status;
 
 class Expense extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     protected $table = "expenses";
     protected $primarykey = "id";
