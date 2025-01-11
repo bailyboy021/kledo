@@ -18,6 +18,16 @@ class Approver extends Model
         'id'
     ];
 
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
+
     public static function addApprover(array $params = [])
     {
         try {
@@ -32,7 +42,10 @@ class Approver extends Model
                     abort(400, 'Failed to add approver');
                 }
             
-                return $approver;
+                return [
+                    'status' => true,
+                    'data' => $approver
+                ];
             });
         } catch (\Exception $e) {
             Log::error('Failed to add approver: ' . $e->getMessage());    

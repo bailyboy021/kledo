@@ -11,6 +11,68 @@
     ],
     "paths": {
         "/api": {},
+        "/approvers": {
+            "post": {
+                "tags": [
+                    "Approver"
+                ],
+                "summary": "Add Approver",
+                "description": "Create a new approver with a unique name.",
+                "operationId": "addApprover",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of the approver",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Approver created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "id": 5,
+                                    "name": "John Doe",
+                                    "created_at": "2025-01-11T12:00:00.000000Z",
+                                    "updated_at": "2025-01-11T12:00:00.000000Z"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "error": {
+                                        "name": [
+                                            "The name field is required.",
+                                            "The name has already been taken."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/expense/{id}": {
             "get": {
                 "tags": [
@@ -240,6 +302,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Approver",
+            "description": "Approver"
+        },
         {
             "name": "Expense",
             "description": "Expense"
