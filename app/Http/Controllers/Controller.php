@@ -11,7 +11,8 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Info(
  *     version="1.0",
  *     title="Kledo API"
- * )
+ * ),
+ * @OA\PathItem(path="/api")
  */
 class Controller extends BaseController
 {

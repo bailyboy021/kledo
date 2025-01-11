@@ -27,6 +27,18 @@ class Expense extends Model
         'amount' => 'float',
     ];
 
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'amount' => $this->amount,
+            'status_id' => $this->status_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
+    }
+
+
     public function status()
     {
         return $this->belongsTo(Status::class);
@@ -115,8 +127,11 @@ class Expense extends Model
                         abort(400, 'Failed to create approval entry');
                     }
                 }
-            
-                return $expense;
+
+                return [
+                    'status' => true,
+                    'data' => $expense
+                ];
             });
         } catch (\Exception $e) {
             Log::error('Failed to add expense: ' . $e->getMessage());    

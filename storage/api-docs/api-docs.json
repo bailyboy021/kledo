@@ -1,0 +1,248 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Kledo API",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "/api"
+        }
+    ],
+    "paths": {
+        "/api": {},
+        "/expense/{id}": {
+            "get": {
+                "tags": [
+                    "Expense"
+                ],
+                "summary": "Get Expense",
+                "description": "Get Expense by ID",
+                "operationId": "getExpense",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "id": 2,
+                                    "amount": 15000,
+                                    "status": {
+                                        "id": 1,
+                                        "name": "menunggu persetujuan"
+                                    },
+                                    "approvals": [
+                                        {
+                                            "id": 4,
+                                            "approver": {
+                                                "id": 3,
+                                                "name": "Ina"
+                                            },
+                                            "status": {
+                                                "id": 2,
+                                                "name": "disetujui"
+                                            }
+                                        },
+                                        {
+                                            "id": 5,
+                                            "approver": {
+                                                "id": 1,
+                                                "name": "Ana"
+                                            },
+                                            "status": {
+                                                "id": 2,
+                                                "name": "disetujui"
+                                            }
+                                        },
+                                        {
+                                            "id": 6,
+                                            "approver": {
+                                                "id": 2,
+                                                "name": "Ani"
+                                            },
+                                            "status": {
+                                                "id": 1,
+                                                "name": "menunggu persetujuan"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/expense": {
+            "post": {
+                "tags": [
+                    "Expense"
+                ],
+                "summary": "Add Expense",
+                "description": "Create a new expense with a specified amount.",
+                "operationId": "addExpense",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "amount"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "description": "Amount of the expense",
+                                        "type": "integer",
+                                        "example": 12000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Expense created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "status": true,
+                                    "data": {
+                                        "id": 1,
+                                        "amount": 12000,
+                                        "status_id": 1,
+                                        "created_at": "2025-01-11T12:55:55.000000Z",
+                                        "updated_at": "2025-01-11T12:55:55.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "error": {
+                                        "amount": [
+                                            "The amount field is required."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/expense/{id}/approve": {
+            "patch": {
+                "tags": [
+                    "Expense"
+                ],
+                "summary": "Approve Expense",
+                "description": "Approve an expense by an approver.",
+                "operationId": "approveExpense",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the expense to be approved",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "approver_id"
+                                ],
+                                "properties": {
+                                    "approver_id": {
+                                        "description": "ID of the approver approving the expense",
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Expense approved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Approval successful",
+                                    "current_approval": {
+                                        "id": 28,
+                                        "expense_id": 10,
+                                        "approver_id": 3,
+                                        "status_id": 2,
+                                        "created_at": "2025-01-11T12:59:50.000000Z",
+                                        "updated_at": "2025-01-11T13:03:14.000000Z",
+                                        "deleted_at": null
+                                    },
+                                    "expense": {
+                                        "id": 10,
+                                        "amount": 12000,
+                                        "status_id": 1,
+                                        "created_at": "2025-01-11T12:59:50.000000Z",
+                                        "updated_at": "2025-01-11T12:59:50.000000Z"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "error": {
+                                        "id": [
+                                            "The id field must exist in expenses."
+                                        ],
+                                        "approver_id": [
+                                            "The approver_id field is required."
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Expense",
+            "description": "Expense"
+        }
+    ]
+}
